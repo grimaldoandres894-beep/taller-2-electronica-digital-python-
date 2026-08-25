@@ -237,9 +237,11 @@ def main(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER
         )
     )
+# Reemplaza desde donde empieza if __name__ == "__main__": en la parte inferior
 
 if __name__ == "__main__":
     ft.app(target=main)
 
-# --- LINEA OBLIGATORIA PARA RENDER / DESPLIEGUE WEB ---
-app = ft.app(target=main, export_asgi=True)
+# Exportación limpia mediante el módulo FastAPI oficial de Flet:
+import flet.fastapi as flet_fastapi
+app = flet_fastapi.app(main)
