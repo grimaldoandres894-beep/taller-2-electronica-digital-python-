@@ -1,9 +1,9 @@
 import flet as ft
 
-
-COLOR_OFF = "#3a2e2b20"       
-COLOR_ON = "#10b981"        
-BG_DARK = "#090d16"         
+# --- Paleta Translúcida & Neón (Estilo Mago de Oz) ---
+COLOR_OFF = "#3a2e2b20"       # Sepia translúcido (Píxel Apagado)
+COLOR_ON = "#10b981"        # Verde Esmeralda Neón (Píxel Encendido)
+BG_DARK = "#090d16"         # Fondo oscuro estilo noche mágica
 
 def main(page: ft.Page):
     page.title = "Editor de Sprites 8-Bits | Mago de Oz Edition"
@@ -40,14 +40,14 @@ def main(page: ft.Page):
 
     status_text = ft.Text(value="", color="#f87171", size=12)
 
-    # Lógica: Matriz -> Hexadecimal
+    # Lógica: Matriz -> Hexadecimal (Fase 3)
     def update_hex_from_grid():
         binary_str = "".join(str(bit) for bit in pixel_states)
         hex_val = hex(int(binary_str, 2))[2:].upper().zfill(16)
         hex_display.value = hex_val
         page.update()
 
-    # Lógica: Clic en Píxel con Animación de Escala
+    # Lógica: Clic en Píxel (Fase 2)
     def toggle_pixel(e):
         idx = e.control.data
         if pixel_states[idx] == 0:
@@ -63,7 +63,7 @@ def main(page: ft.Page):
         
         update_hex_from_grid()
 
-    # Lógica: Hexadecimal -> Matriz con Efecto de Renderizado
+    # Lógica: Hexadecimal -> Matriz (Fase 4)
     def load_hex_to_grid(e):
         raw_hex = hex_input.value.strip()
         if not raw_hex:
@@ -119,7 +119,6 @@ def main(page: ft.Page):
         height=390
     )
 
-    # Bordes luminosos estilo esmeralda
     emerald_border = ft.Border(
         top=ft.BorderSide(1, "#059669"),
         bottom=ft.BorderSide(1, "#059669"),
@@ -144,7 +143,6 @@ def main(page: ft.Page):
             border=glass_border,
             data=i,
             on_click=toggle_pixel,
-            # Animaciones combinadas de fondo, escala y rotación suave
             animate=ft.Animation(200, "easeInOut"),
             animate_scale=ft.Animation(200, "bounceOut"),
             animate_rotation=ft.Animation(200, "easeInOut")
@@ -152,7 +150,7 @@ def main(page: ft.Page):
         pixel_buttons.append(btn)
         grid.controls.append(btn)
 
-    # Botones
+    # Botones de Acción
     btn_cargar = ft.FilledButton(
         "Cargar Hex",
         icon=ft.Icons.AUTO_AWESOME_ROUNDED,
@@ -168,11 +166,10 @@ def main(page: ft.Page):
         width=135
     )
 
-    # --- Estructura Visual Mago de Oz (Glassmorphism) ---
+    # Layout Principal Translúcido
     page.add(
         ft.Column(
             controls=[
-                # Encabezado
                 ft.Row(
                     controls=[
                         ft.Icon(ft.Icons.AUTO_AWESOME, color="#34d399", size=32),
@@ -184,23 +181,22 @@ def main(page: ft.Page):
                 
                 ft.Row(
                     controls=[
-                        # Contenedor de Matriz Translúcido
+                        # Matriz de Píxeles
                         ft.Container(
                             content=grid,
                             padding=16,
-                            bgcolor="#1e293b50",  # Efecto cristal transparente
+                            bgcolor="#1e293b50",
                             border_radius=16,
                             border=emerald_border
                         ),
                         
-                        # Panel de Control Translúcido
+                        # Panel Lateral
                         ft.Container(
                             content=ft.Column(
                                 controls=[
                                     ft.Text("CAMINO A OZ", size=12, weight=ft.FontWeight.BOLD, color="#f0fdf4"),
                                     ft.Divider(color="#05966940", height=10),
                                     
-                                    # Card Display Hexadecimal
                                     ft.Container(
                                         content=ft.Column(
                                             controls=[
@@ -217,7 +213,6 @@ def main(page: ft.Page):
                                     ),
                                     
                                     ft.Container(height=4),
-                                    
                                     hex_input,
                                     status_text,
                                     
@@ -229,7 +224,7 @@ def main(page: ft.Page):
                                 spacing=10
                             ),
                             padding=16,
-                            bgcolor="#1e293b50",  # Efecto cristal transparente
+                            bgcolor="#1e293b50",
                             border_radius=16,
                             border=emerald_border
                         )
@@ -245,3 +240,6 @@ def main(page: ft.Page):
 
 if __name__ == "__main__":
     ft.app(target=main)
+
+# --- LINEA OBLIGATORIA PARA RENDER / DESPLIEGUE WEB ---
+app = ft.app(target=main, export_asgi=True)
